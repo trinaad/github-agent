@@ -1,0 +1,8 @@
+@if (!auth.isLoggedIn()) {
+<button (click)="auth.login()">Login with GitHub</button>
+} @else {
+<div>
+    <span>✅ Logged in as {{ username() }}</span>
+    <button (click)="onLogout()">Logout</button>
+</div>
+}
