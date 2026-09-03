@@ -11,7 +11,7 @@ Built to explore agentic AI patterns (tool-use, multi-step reasoning) combined w
 
 More phases in progress:
 - [x] Phase 1 — Skeleton + GitHub OAuth
-- [ ] Phase 2 — Core GitHub API tool functions
+- [x] Phase 2 — Core GitHub API tool functions
 - [ ] Phase 3 — LLM-powered agent loop
 - [ ] Phase 4 — Live reasoning UI
 - [ ] Phase 5 — Multi-step "wow" capabilities
