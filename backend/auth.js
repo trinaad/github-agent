@@ -1,10 +1,9 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
 
 const CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 const CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 
-// Step 1: Redirect user to GitHub's authorization page
 router.get("/github", (req, res) => {
   const redirectUri = "http://localhost:3000/auth/github/callback";
   const scope = "repo read:user";
@@ -12,7 +11,6 @@ router.get("/github", (req, res) => {
   res.redirect(githubAuthUrl);
 });
 
-// Step 2: GitHub redirects back here with a temporary code
 router.get("/github/callback", async (req, res) => {
   const code = req.query.code;
 
@@ -21,7 +19,6 @@ router.get("/github/callback", async (req, res) => {
   }
 
   try {
-    // Exchange the code for an access token
     const tokenResponse = await fetch(
       "https://github.com/login/oauth/access_token",
       {
@@ -45,8 +42,6 @@ router.get("/github/callback", async (req, res) => {
     }
 
     const accessToken = tokenData.access_token;
-
-    // For now, pass the token back via query param (we'll improve this to cookies/session later)
     res.redirect(`http://localhost:4200?token=${accessToken}`);
   } catch (err) {
     console.error(err);
@@ -54,4 +49,4 @@ router.get("/github/callback", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
