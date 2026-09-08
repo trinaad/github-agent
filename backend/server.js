@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import authRoutes from "./auth.js";
 import apiRoutes from "./api.js";
+import agentRoutes from "./agent.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,6 +13,7 @@ app.use(express.json());
 
 app.use("/auth", authRoutes);
 app.use("/api", apiRoutes);
+app.use("/api/agent", agentRoutes);
 
 app.get("/", (req, res) => {
   res.json({ status: "Backend is running" });
