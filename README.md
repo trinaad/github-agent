@@ -4,7 +4,7 @@ An AI-powered assistant that connects to your GitHub account and helps you manag
 
 Built to explore agentic AI patterns (tool-use, multi-step reasoning) combined with a full-stack Angular + Node application.
 
----
+----
 
 ## 🚧 Project Status
 **Phase 1 complete** — GitHub OAuth login flow working end-to-end (Angular frontend ↔ Express backend ↔ GitHub API).
