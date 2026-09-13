@@ -1,0 +1,179 @@
+@use 'sass:color';
+
+.agent-chat {
+  max-width: 640px;
+  margin: 3rem auto;
+  font-family:
+    'Inter',
+    -apple-system,
+    sans-serif;
+  color: #e7e9ec;
+
+  .input-row {
+    display: flex;
+    gap: 0.5rem;
+
+    input {
+      flex: 1;
+      padding: 0.85rem 1rem;
+      border-radius: 8px;
+      border: 1px solid #262b35;
+      background: #171b22;
+      color: #e7e9ec;
+      font-size: 0.95rem;
+      font-family: inherit;
+
+      &::placeholder {
+        color: #565d6b;
+      }
+      &:focus {
+        outline: none;
+        border-color: #f2a93b;
+      }
+      &:disabled {
+        opacity: 0.6;
+      }
+    }
+
+    button {
+      min-width: 84px;
+      padding: 0.85rem 1.25rem;
+      border-radius: 8px;
+      border: none;
+      background: #f2a93b;
+      color: #171203;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.15s ease;
+
+      &:hover:not(:disabled) {
+        background: color.adjust(#f2a93b, $lightness: 6%);
+      }
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .spinner {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border: 2px solid rgba(23, 18, 3, 0.3);
+        border-top-color: #171203;
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+      }
+    }
+  }
+
+  .trace {
+    margin-top: 1.25rem;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #262b35;
+    background: #0f1115;
+
+    .trace-header {
+      padding: 0.5rem 0.9rem;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      color: #565d6b;
+      border-bottom: 1px solid #262b35;
+    }
+
+    .trace-body {
+      padding: 0.6rem 0;
+    }
+
+    .trace-line {
+      display: flex;
+      gap: 0.5rem;
+      align-items: baseline;
+      padding: 0.35rem 0.9rem;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.82rem;
+      border-left: 2px solid transparent;
+      animation: reveal 0.25s ease-out;
+
+      .marker {
+        width: 14px;
+        flex-shrink: 0;
+      }
+      .fn {
+        color: #e7e9ec;
+      }
+      .args {
+        color: #8b93a1;
+      }
+
+      &.call {
+        border-left-color: #f2a93b;
+        .marker {
+          color: #f2a93b;
+        }
+      }
+      &.result {
+        border-left-color: #3fb68b;
+        .marker {
+          color: #3fb68b;
+        }
+      }
+      &.pending {
+        border-left-color: #565d6b;
+        .marker {
+          color: #565d6b;
+        }
+        color: #8b93a1;
+      }
+    }
+  }
+
+  .answer {
+    margin-top: 1.25rem;
+    padding: 1.25rem 1.5rem;
+    background: #171b22;
+    border: 1px solid #262b35;
+    border-radius: 8px;
+    line-height: 1.6;
+    font-size: 0.95rem;
+
+    :global(table) {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.75rem 0;
+      font-size: 0.85rem;
+    }
+    :global(th),
+    :global(td) {
+      text-align: left;
+      padding: 0.4rem 0.6rem;
+      border-bottom: 1px solid #262b35;
+    }
+    :global(th) {
+      color: #8b93a1;
+      font-weight: 500;
+    }
+    :global(strong) {
+      color: #f2a93b;
+      font-weight: 600;
+    }
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateX(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

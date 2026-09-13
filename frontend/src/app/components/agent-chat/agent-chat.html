@@ -1,0 +1,46 @@
+<div class="agent-chat">
+    <div class="input-row">
+        <input type="text" placeholder="Ask about your repos, PRs, issues…" [ngModel]="userInput()"
+            (ngModelChange)="userInput.set($event)" (keyup.enter)="onSubmit()" [disabled]="agent.isLoading()" />
+        <button (click)="onSubmit()" [disabled]="agent.isLoading()">
+            @if (agent.isLoading()) {
+            <span class="spinner"></span>
+            } @else {
+            Send
+            }
+        </button>
+    </div>
+
+    @if (agent.steps().length > 0) {
+    <div class="trace">
+        <div class="trace-header">agent.log</div>
+        <div class="trace-body">
+            @for (step of agent.steps(); track $index) {
+            @if (step.type === 'tool_call') {
+            <div class="trace-line call">
+                <span class="marker">→</span>
+                <span class="fn">{{ step.tool }}</span>(<span class="args">{{ step.args | json }}</span>)
+            </div>
+            }
+            @if (step.type === 'tool_result') {
+            <div class="trace-line result">
+                <span class="marker">✓</span>
+                <span class="fn">{{ step.tool }}</span> resolved
+            </div>
+            }
+            }
+            @if (agent.isLoading()) {
+            <div class="trace-line pending">
+                <span class="marker">…</span> working
+            </div>
+            }
+        </div>
+    </div>
+    }
+
+    @if (agent.finalAnswer()) {
+    <div class="answer">
+        <div [innerHTML]="renderedAnswer()"></div>
+    </div>
+    }
+</div>

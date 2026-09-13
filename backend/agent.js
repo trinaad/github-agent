@@ -41,6 +41,16 @@ router.post("/chat", async (req, res) => {
     return res.status(401).json({ error: "No GitHub token provided" });
   if (!message) return res.status(400).json({ error: "No message provided" });
 
+  // Set up SSE headers
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("Connection", "keep-alive");
+  res.flushHeaders();
+
+  function sendEvent(data) {
+    res.write(`data: ${JSON.stringify(data)}\n\n`);
+  }
+
   const messages = [
     {
       role: "system",
@@ -49,8 +59,6 @@ router.post("/chat", async (req, res) => {
     },
     { role: "user", content: message },
   ];
-
-  const steps = []; // track reasoning steps for the UI later
 
   try {
     let finalAnswer = null;
@@ -75,7 +83,7 @@ router.post("/chat", async (req, res) => {
           const toolName = toolCall.function.name;
           const toolArgs = JSON.parse(toolCall.function.arguments);
 
-          steps.push({ type: "tool_call", tool: toolName, args: toolArgs });
+          sendEvent({ type: "tool_call", tool: toolName, args: toolArgs });
 
           let result;
           try {
@@ -84,7 +92,7 @@ router.post("/chat", async (req, res) => {
             result = { error: err.message };
           }
 
-          steps.push({ type: "tool_result", tool: toolName, result });
+          sendEvent({ type: "tool_result", tool: toolName, result });
 
           messages.push({
             role: "tool",
@@ -97,15 +105,18 @@ router.post("/chat", async (req, res) => {
       }
     }
 
-    res.json({
+    sendEvent({
+      type: "final_answer",
       answer:
         finalAnswer ||
         "I was unable to complete this request within the step limit.",
-      steps,
     });
+    sendEvent({ type: "done" });
+    res.end();
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: err.message });
+    sendEvent({ type: "error", error: err.message });
+    res.end();
   }
 });
 
