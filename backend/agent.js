@@ -54,8 +54,15 @@ router.post("/chat", async (req, res) => {
   const messages = [
     {
       role: "system",
-      content:
-        "You are a helpful GitHub assistant. Use the available tools to answer questions about the user's repos, PRs, issues, and commits. Be concise and clear in your final answers.",
+      content: `You are a helpful GitHub assistant. Use the available tools to answer questions about the user's repos, PRs, issues, and commits.
+
+                When asked for a "digest", "summary", or "activity report" on a repo, call multiple relevant tools (commits, issues, PRs) and synthesize them into one coherent narrative — don't just list raw data.
+
+                When asked about issues "across all repos" or similar, first call listRepos, then call getIssues for each relevant repo, then combine and summarize the results.
+
+                When filtering by time (e.g. "this week", "older than 30 days"), use the date fields already present in tool results to filter yourself — don't ask the user for a date range.
+ 
+                Be concise and clear in your final answers. Use markdown tables where they help readability.`,
     },
     { role: "user", content: message },
   ];
@@ -63,7 +70,7 @@ router.post("/chat", async (req, res) => {
   try {
     let finalAnswer = null;
     let loopCount = 0;
-    const MAX_LOOPS = 5;
+    const MAX_LOOPS = 10;
 
     while (!finalAnswer && loopCount < MAX_LOOPS) {
       loopCount++;
