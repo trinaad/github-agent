@@ -1,20 +1,19 @@
 # GitHub Agent 🤖
 
-An AI-powered assistant that connects to your GitHub account and helps you manage repos through natural language — summarizing PRs, checking issue status, and more, with its reasoning visible in real time as it works.
+An AI-powered assistant that connects to your GitHub account and helps you manage repos through natural language — summarizing PRs, checking issue status, generating activity digests, and more, with its reasoning visible in real time as it works.
 
 Built to explore agentic AI patterns (tool-use, multi-step reasoning) combined with a full-stack Angular + Node application.
 
 ---
 
 ## 🚧 Project Status
-**Phase 4 complete** — Full agent loop streaming live: natural language request → LLM picks the right GitHub tool(s) → executes real API calls → streams each reasoning step to the UI in real time → returns a clean, markdown-rendered answer.
+**Complete** — Full agent loop streaming live, with multi-step "wow" capabilities: weekly repo activity digests and cross-repo stale issue summaries, both requiring the agent to chain multiple tool calls and synthesize the results into a coherent answer.
 
 - [x] Phase 1 — Skeleton + GitHub OAuth
 - [x] Phase 2 — Core GitHub API tool functions
 - [x] Phase 3 — LLM-powered agent loop
 - [x] Phase 4 — Live streaming reasoning UI
 - [x] Phase 5 — Multi-step "wow" capabilities
-- [ ] Phase 6 — Deploy + polish
 
 ---
 
@@ -64,6 +63,7 @@ PORT=3000
 
 
 
+
 Run it:
 ```bash
 npm run dev
@@ -88,11 +88,11 @@ Go to [github.com/settings/developers](https://github.com/settings/developers) �
 ## 🧩 How it works
 
 1. User logs in via GitHub OAuth
-2. User sends a natural language request (e.g. "show me open PRs on my repo X")
+2. User sends a natural language request (e.g. "give me a weekly activity summary for repo X" or "which issues have been open over 30 days?")
 3. The request + a set of available tools (listRepos, getOpenPRs, getIssues, getCommitHistory, getReadme) are sent to an LLM
-4. The LLM decides which tool(s) to call and with what arguments — sometimes chaining multiple calls (e.g. resolving a repo name first, then fetching its data)
+4. The LLM decides which tool(s) to call and with what arguments — often chaining multiple calls, e.g. resolving a repo name first, or checking issues across every repo one by one
 5. The backend streams each tool call and result to the frontend live via Server-Sent Events, visible as a real-time reasoning trace
-6. Once all steps are done, the LLM produces a clean, markdown-rendered final answer
+6. Once all steps are done, the LLM synthesizes everything into a clean, markdown-rendered final answer
 
 ---
 
