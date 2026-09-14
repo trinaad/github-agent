@@ -96,11 +96,6 @@ Go to [github.com/settings/developers](https://github.com/settings/developers) �
 
 ---
 
-## 📸 Demo
-*(coming soon)*
-
----
-
 ## 🧠 Why I built this
 Wanted to go beyond a basic chatbot wrapper and build something that actually plans and executes multi-step tasks using real tools — GitHub's API in this case — while being genuinely useful for my own dev workflow, with its reasoning visible rather than hidden behind a spinner.
 
