@@ -13,7 +13,7 @@ Built to explore agentic AI patterns (tool-use, multi-step reasoning) combined w
 - [x] Phase 2 — Core GitHub API tool functions
 - [x] Phase 3 — LLM-powered agent loop
 - [x] Phase 4 — Live streaming reasoning UI
-- [ ] Phase 5 — Multi-step "wow" capabilities
+- [x] Phase 5 — Multi-step "wow" capabilities
 - [ ] Phase 6 — Deploy + polish
 
 ---
